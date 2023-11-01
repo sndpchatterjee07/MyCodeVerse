@@ -17,14 +17,24 @@
  */
 package in.sandeep;
 
+
+import in.sandeep.api.twilio.TwilioClient;
+
+
 /**
- * Hello world!
+ * The type App.
  *
+ * @author sandeep
+ * @version 1.0
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public class App {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+    public static void main(String[] args) {
+        TwilioClient twilioClient = new TwilioClient ();
+        twilioClient.sendMessage ();
     }
 }
