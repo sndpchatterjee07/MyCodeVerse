@@ -18,9 +18,6 @@
 package in.sandeep;
 
 
-import in.sandeep.api.twilio.TwilioClient;
-
-
 /**
  * The type App.
  *
@@ -34,7 +31,6 @@ public class App {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        TwilioClient twilioClient = new TwilioClient ();
-        twilioClient.sendMessage ();
+        System.out.println("Hello..");
     }
 }
