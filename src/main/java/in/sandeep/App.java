@@ -17,6 +17,7 @@
  */
 package in.sandeep;
 
+import in.sandeep.utility.EmailSender;
 
 /**
  * The type App.
@@ -28,9 +29,22 @@ public class App {
     /**
      * The entry point of application.
      *
-     * @param args the input arguments
      */
-    public static void main(String[] args) {
+    static void main() {
+
         System.out.println("Hello..");
+
+        EmailSender sender = new EmailSender();
+
+        try {
+
+            sender.sendEmail();
+
+        } catch (Exception e) {
+
+            System.err.println("Error sending email: " + e.getMessage());
+
+            e.printStackTrace();
+        }
     }
 }
