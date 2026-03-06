@@ -1,7 +1,7 @@
 /*
  *
  *  *
- *  *  *     Copyright 2023-2024 Sandeep Chatterjee @ https://sandeepc.in/
+ *  *  *     Copyright 2026 Sandeep Chatterjee @ https://sndpchatterjee07.github.io//
  *  *  *
  *  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  *  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@
 
 package in.sandeep.utility;
 
+
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -36,18 +37,26 @@ public class EmailSender {
         String fileName = "application.properties";
         // Check if the file exists in the context classloader
         var loader = Thread.currentThread().getContextClassLoader();
+
         var resource = loader.getResource(fileName);
 
         if (resource == null) {
+
             System.err.println("CRITICAL: Could not find " + fileName + " in the classpath.");
+
             System.err.println("Debug: Current Classpath location: " +
+
                     System.getProperty("java.class.path"));
+
             throw new RuntimeException("Unable to find " + fileName);
         }
 
         try (InputStream input = resource.openStream()) {
+
             config.load(input);
+
         } catch (IOException e) {
+
             throw new RuntimeException("Error loading " + fileName, e);
         }
     }
