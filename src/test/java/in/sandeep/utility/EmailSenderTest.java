@@ -31,24 +31,34 @@ import static org.mockito.Mockito.times;
 
 public class EmailSenderTest {
 
-    @Test(expected = RuntimeException.class)
-    public void testEmailSender_ThrowsExceptionWhenConfigMissing() {
-        // This assumes application.properties is NOT in the test classpath
-        new EmailSender();
+    @Test
+    public void testConstructor_LoadsPropertiesSuccessfully() {
+        // Verifies the object is created and properties are loaded
+        EmailSender sender = new EmailSender();
+        assertNotNull(sender);
     }
 
     @Test
     public void testSendEmail_Success() {
-        // We use mockStatic to intercept the static call to Transport.send
+        // Mocking the static Transport.send method to prevent real network calls
         try (MockedStatic<Transport> mockedTransport = mockStatic(Transport.class)) {
-            // Note: This test requires a valid application.properties
-            // in your src/test/resources folder for the constructor to pass
             EmailSender sender = new EmailSender();
 
             sender.sendEmail();
 
-            // Verify that transport was called once
+            // Verifies that Transport.send was invoked exactly once
             mockedTransport.verify(() -> Transport.send(any()), times(1));
+        }
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testSendEmail_ThrowsExceptionOnFailure() {
+        // Force the static method to throw an error to test exception handling
+        try (MockedStatic<Transport> mockedTransport = mockStatic(Transport.class)) {
+            mockedTransport.when(() -> Transport.send(any())).thenThrow(new RuntimeException("SMTP Error"));
+
+            EmailSender sender = new EmailSender();
+            sender.sendEmail(); // This should trigger the RuntimeException
         }
     }
 }
