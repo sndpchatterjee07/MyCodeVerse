@@ -31,80 +31,92 @@ import java.util.Properties;
 
 public class EmailSender {
 
-    private final Properties config = new Properties();
+    private final Properties config = new Properties(); // Initializes the local properties object to store configuration
 
+    /**
+     * Constructor to initialize settings upon object creation
+     *
+     */
     public EmailSender() {
-        String fileName = "application.properties";
-        // Check if the file exists in the context classloader
-        var loader = Thread.currentThread().getContextClassLoader();
 
-        var resource = loader.getResource(fileName);
+        String fileName = "application.properties";  // Sets the target configuration file name
 
-        if (resource == null) {
+        var loader = Thread.currentThread().getContextClassLoader(); // Gets the current thread's class loader to find resources
 
-            System.err.println("CRITICAL: Could not find " + fileName + " in the classpath.");
+        var resource = loader.getResource(fileName); // Locates the configuration file in the classpath
 
-            System.err.println("Debug: Current Classpath location: " +
+        if (resource == null) { // Checks if the file was found by the class loader
 
-                    System.getProperty("java.class.path"));
+            System.err.println("CRITICAL: Could not find " + fileName + " in the classpath."); // Prints error to console if file is missing
 
-            throw new RuntimeException("Unable to find " + fileName);
+            System.err.println("Debug: Current Classpath location: " + // Logs debug info about the classpath
+
+                    System.getProperty("java.class.path")); // Retrieves and prints the current system classpath
+
+            throw new RuntimeException("Unable to find " + fileName); // Terminates with an exception if file is missing
         }
 
-        try (InputStream input = resource.openStream()) {
+        try (InputStream input = resource.openStream()) { // Attempts to open an input stream for the resource file
 
-            config.load(input);
+            config.load(input); // Loads the property data from the stream into the configuration object
 
         } catch (IOException e) {
 
-            throw new RuntimeException("Error loading " + fileName, e);
+            throw new RuntimeException("Error loading " + fileName, e); // Re-throws as a runtime exception with context
         }
     }
 
+    /**
+     * Defines the method to handle email composition and sending
+     *
+     */
     public void sendEmail() {
 
-        var props = new Properties();
+        var props = new Properties(); // Creates a new properties set for SMTP configuration
 
-        props.putAll(java.util.Map.of(
+        props.putAll(java.util.Map.of( // Populates SMTP settings into the properties map
 
-                "mail.smtp.auth", "true",
+                "mail.smtp.auth", "true",  // Enables SMTP authentication
 
-                "mail.smtp.starttls.enable", "true",
+                "mail.smtp.starttls.enable", "true", // Enables STARTTLS security protocol
 
-                "mail.smtp.host", "smtp.gmail.com",
+                "mail.smtp.host", "smtp.gmail.com",  // Specifies the Gmail SMTP host address
 
-                "mail.smtp.port", "587"
+                "mail.smtp.port", "587" // Specifies the SMTP port for TLS
         ));
 
-        var session = Session.getInstance(props, new Authenticator() {
+        var session = Session.getInstance(props, new Authenticator() { // Creates a mail session with authentication logic
             @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
+            protected PasswordAuthentication getPasswordAuthentication() { // Defines how credentials are retrieved
 
                 return new PasswordAuthentication(
 
-                        config.getProperty("email.username").trim(),
+                        config.getProperty("email.username").trim(), // Retrieves and cleans the username from config
 
-                        config.getProperty("email.password").trim()
-                );
-            }
-        });
+                        config.getProperty("email.password").trim() // Retrieves and cleans the password from config
+
+                ); // Ends credential object
+
+            } // Ends authentication method
+
+        }); // Ends session instance
 
         try {
-            var message = new MimeMessage(session);
+            var message = new MimeMessage(session); // Creates a new MIME message linked to the current session
 
-            message.setFrom(new InternetAddress(config.getProperty("email.username"), "My Awesome App"));
+            message.setFrom(new InternetAddress(config.getProperty("email.username"), "My Awesome App")); // Sets sender details
 
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("chatterjee.sandeep@outlook.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("chatterjee.sandeep@outlook.com")); // Sets the recipient address
 
-            message.setSubject("Hello from Java 25!");
+            message.setSubject("Hello from Java 25!"); // Sets the subject line of the email
 
-            message.setText("Testing resource loading!");
+            message.setText("Testing resource loading!"); // Sets the plain text body content
 
-            Transport.send(message);
+            Transport.send(message); // Transmits the email to the SMTP server
 
         } catch (Exception ex) {
 
-            throw new RuntimeException("Failed to send email", ex);
+            throw new RuntimeException("Failed to send email", ex); // Wraps and re-throws the exception to indicate failure
         }
     }
 }

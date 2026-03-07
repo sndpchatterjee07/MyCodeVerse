@@ -32,19 +32,25 @@ public class App {
      */
     static void main() {
 
-        System.out.println("Hello..");
-
-        EmailSender sender = new EmailSender();
+        System.out.println("*** LAUNCHING APPLICATION *** ");
 
         try {
 
+            EmailSender sender = new EmailSender();
+
             sender.sendEmail();
 
-        } catch (Exception e) {
+            System.out.println("EMAIL SENT SUCCESSFULLY...");
 
-            System.err.println("Error sending email: " + e.getMessage());
+        } catch (Exception exception) {
 
-            e.printStackTrace();
+            // System.out.println("INSIDE EXCEPTION BLOCK IN APP.JAVA");
+
+            System.err.println("Error sending email: " + exception.getMessage());
+
+        } finally {
+
+            System.out.println("*** EXITING APPLICATION ***");
         }
     }
 }
