@@ -17,7 +17,7 @@
  */
 package in.sandeep;
 
-import in.sandeep.utility.EmailScheduler;
+import in.sandeep.utility.emails.EmailScheduler;
 
 /**
  * The type App.
@@ -36,27 +36,21 @@ public class App {
 
         try {
 
-            // Create an instance of the scheduler
-            EmailScheduler emailScheduler = new EmailScheduler();
+            EmailScheduler emailScheduler = new EmailScheduler(); // Create an instance of the scheduler
 
-            // Start the background process
-            emailScheduler.startScheduling();
+            emailScheduler.startScheduling(); // Start the background process
 
-            System.out.println("Scheduler started. Press Ctrl+C to stop.");
+            System.out.println("SCHEDULER STARTED........");
 
-            // Keep the main thread alive so the scheduler doesn't get killed. This waits indefinitely
-            Thread.currentThread().join();
+            Thread.currentThread().join(); // Keep the main thread alive so the scheduler doesn't get killed. This waits indefinitely
 
-            // Register a JVM shutdown hook to clean up resources when the app stops
-            Runtime.getRuntime().addShutdownHook(new Thread(emailScheduler::stopScheduling));
+            Runtime.getRuntime().addShutdownHook(new Thread(emailScheduler::stopScheduling)); // Register a JVM shutdown hook to clean up resources when the app stops
 
         } catch (InterruptedException e) {
 
             System.err.println("Main thread interrupted.");
 
         }catch (Exception exception) {
-
-            // System.out.println("INSIDE EXCEPTION BLOCK IN APP.JAVA");
 
             System.err.println("Error sending email: " + exception.getMessage());
 

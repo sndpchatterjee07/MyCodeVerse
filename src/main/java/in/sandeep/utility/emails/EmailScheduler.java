@@ -18,7 +18,7 @@
  *
  */
 
-package in.sandeep.utility;
+package in.sandeep.utility.emails;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -46,11 +46,9 @@ public class EmailScheduler { // Begins the declaration of the EmailScheduler cl
 
                 sender.sendEmail(); // Calls the method to perform the email sending logic
 
-                System.out.println("Email sent successfully."); // Prints a success confirmation to the console
+            } catch (Throwable throwable) { // Catches any unexpected errors during the email sending process
 
-            } catch (Exception e) { // Catches any unexpected errors during the email sending process
-
-                System.err.println("Task failed: " + e.getMessage()); // Prints the error details to the standard error stream
+                System.err.println("Task failed: " + throwable.getMessage()); // Prints the error details to the standard error stream
 
             } // Closes the try-catch block
 

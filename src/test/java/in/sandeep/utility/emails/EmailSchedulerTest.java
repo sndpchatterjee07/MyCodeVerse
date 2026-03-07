@@ -1,7 +1,7 @@
 /*
  *
  *  *
- *  *  *     Copyright 2026 Sandeep Chatterjee @ https://sndpchatterjee07.github.io//
+ *  *  *     Copyright 2023-2024 Sandeep Chatterjee @ https://sandeepc.in/
  *  *  *
  *  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  *  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
  *
  */
 
-package in.sandeep.utility;
+package in.sandeep.utility.emails;
 
 import org.junit.Test;
 
