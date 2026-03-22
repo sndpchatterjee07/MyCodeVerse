@@ -46,7 +46,7 @@ public class EmailSender {
      */
     public EmailSender() {
 
-        String fileName = "application.properties";  // Sets the target configuration file name
+        String fileName = ".env";  // Sets the target configuration file name
 
         var loader = Thread.currentThread().getContextClassLoader(); // Gets the current thread's class loader to find resources
 
@@ -151,9 +151,9 @@ public class EmailSender {
 
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("chatterjee.sandeep@outlook.com")); // Sets the recipient address
 
-            message.addRecipients(Message.RecipientType.CC, InternetAddress.parse("neighbor1@example.com, neighbor2@example.com")); // Add CC (Carbon Copy)
+            //message.addRecipients(Message.RecipientType.CC, InternetAddress.parse("neighbor1@example.com, neighbor2@example.com")); // Add CC (Carbon Copy)
 
-            message.addRecipients(Message.RecipientType.BCC, InternetAddress.parse("sndpchatterjee07@gmail.com")); // Add BCC (Blind Carbon Copy)
+            //message.addRecipients(Message.RecipientType.BCC, InternetAddress.parse("sndpchatterjee07@gmail.com")); // Add BCC (Blind Carbon Copy)
 
             message.setSubject("Inquiry Regarding Election Timeline – Janaadhar Shubha Phase 2"); // Sets the subject line of the email
 
